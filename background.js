@@ -21,11 +21,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         var firstMessage = data.firstMessage;
 
         if (!useApp) {
-          url = `https://web.whatsapp.com/send?phone=${number}&text=${firstMessage}&app_absent=0`;
+          url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
           await switchOrCreateWhatsAppTab(url, tab.index);
         }
         else {
-          url = `https://wa.me/${number}?text=${firstMessage}&app_absent=0`
+          url = `https://wa.me/${number}?text=${encodeURIComponent(firstMessage)}&app_absent=0`
           await chrome.tabs.create({
             active: true,
             url: url,
