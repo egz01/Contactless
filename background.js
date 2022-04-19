@@ -4,6 +4,11 @@ chrome.runtime.onInstalled.addListener(function() {
       "title": "Message on Whatsapp",
       "contexts": ["selection"]
     });
+
+    chrome.storage.sync.set({
+      "useApp": false,
+      "firstMessage": ""
+    });
   });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
@@ -39,7 +44,7 @@ function switchToWhatsappTabIfExists(number) {
     return tab;
   }).then(tab => {
     if (!tab) return;
-    url = `https://web.whatsapp.com/send?phone=${number}&text&app_absent=0`;
+    url = `https://web.whatsapp.com/send?phone=${number}&text=test&app_absent=0`;
     chrome.tabs.update(tab.tabId, {"url": url});
   });
 }
