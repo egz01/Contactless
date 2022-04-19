@@ -49,7 +49,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 function parseNumber(text) {
-  number = text.match(/\+?\d+-?\d+-?\d+-?\d+/); // this should identify most numbers, at least in the country this code was written in...
+  number = text.match(/\+?\d+[-\s]?\d+[-\s]?\d+[-\s]?\d+/); // this should identify most numbers, at least in the country this code was written in...
+  number = String(number).replace(/[\+-\s]/g, '');
   return number;
 }
 
