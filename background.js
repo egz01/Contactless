@@ -15,11 +15,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "messageContextMenu") {
       number = parseNumber(info.selectionText);
       if (number) {
-
+      
         var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
         var useApp = data.useApp;
         var firstMessage = data.firstMessage;
-
+      
         if (!useApp) {
           url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
           await switchOrCreateWhatsAppTab(url, tab.index);
@@ -36,21 +36,21 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           });
         }
       }
-    }
-    else {
-      chrome.scripting.executeScript({
-      target: {tabId: tab.id},
-      func: () => {
-        alert("Couldn't find a valid whatsapp-number in selected text.");
+      else {
+        chrome.scripting.executeScript({
+          target: {tabId: tab.id},
+          func: () => {
+            alert("Couldn't find a valid whatsapp-number in selected text.");
+          }
+        });
       }
-      });
     }
   }
 });
 
 function parseNumber(text) {
   number = text.match(/\+?\d+[-\s]?\d+[-\s]?\d+[-\s]?\d+/); // this should identify most numbers, at least in the country this code was written in...
-  number = String(number).replace(/[\+-\s]/g, '');
+  if (number) number = String(number).replace(/[\+-\s]/g, '');
   return number;
 }
 
