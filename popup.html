@@ -4,12 +4,18 @@
         <link rel="stylesheet" href="popup.css"> 
     </head>
     <body>
-        <div>
-            <input type="checkbox" id="useApp">
-            <label for="useApp">Use Dedicated App</label>
-            <p>Prepare first message:</p>
-            <input type="text" id="firstMessage"/>
-            <input type="button" id="submit" style="height:30px;width:30px;float:right;padding:10px;" value="Submit"/>
+        <div class="container">
+            <div class="row">
+                <input type="checkbox" id="useAppCb">
+                <label for="useAppCb">Use Dedicated App</label>
+            </div>
+            <div class="row">
+                <label for="firstMessageTb">Prepare first message:</label>
+                <input type="text" id="firstMessageTb"/>
+            </div>
+            <div class="row">
+                <input type="button" id="submitBtn" style="float:right;overflow:hidden;" value="Submit"/>
+            </div>
             <script src="popup.js"></script>
         </div>
     </body>

@@ -1,15 +1,19 @@
-let submitBtn = document.getElementById("submit");
-let useAppCb = document.getElementById("useApp");
-let firstMessageTb = document.getElementById("firstMessage");
+const submitBtn = document.getElementById("submitBtn");
+const useAppCb = document.getElementById("useAppCb");
+const firstMessageTb = document.getElementById("firstMessageTb");
 
-chrome.storage.sync.get("useApp, firstMessage", ({ useApp, firstMessage }) => {
-    useAppCb.checked = useApp;
-    firstMessageTb.textContent = firstMessage
-});
 
-submitBtn.addEventListener("click", async () => {
+window.onload = async () => {
+    var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
+    console.log(data);
+    useAppCb.checked = data.useApp;
+    firstMessageTb.value = data.firstMessage;
+};
+
+submitBtn.onclick = async () => {
     chrome.storage.sync.set({
-        "useApp": useAppCb.checked,
-        "firstMessage": firstMessageTb.textContent
+        useApp: useAppCb.checked,
+        firstMessage: firstMessageTb.value
     });
-});
+    window.close()
+};
