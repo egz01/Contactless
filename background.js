@@ -48,6 +48,38 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
+chrome.omnibox.onInputEntered.addListener(async (text, disp) => {
+  var [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+  if (tab) {
+    var number = parseNumber(text);
+    if (number) {
+      var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
+      var useApp = data.useApp;
+      var firstMessage = data.firstMessage;
+
+      if (!useApp) {
+        url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
+        await switchOrCreateWhatsAppTab(url, tab.index);
+      }
+      else {
+        url = `https://wa.me/${number}?text=${encodeURIComponent(firstMessage)}&app_absent=0`
+        await chrome.tabs.create({
+          active: true,
+          url: url,
+          index: tab.index + 1
+        }, 
+        function (newTab) {
+          // somehow get rid of the new tab...
+        });
+      }
+    }
+  }
+});
+
+async function runWhatsapp(tab) {
+
+}
+
 function parseNumber(text) {
   number = text.match(/\+?\d+[-\s]?\d+[-\s]?\d+[-\s]?\d+/); // this should identify most numbers, at least in the country this code was written in...
   if (number) number = String(number).replace(/[\+-\s]/g, '');

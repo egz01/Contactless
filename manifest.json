@@ -1,7 +1,7 @@
 {
     "name": "Contactless",
     "description": "Start chatting with any number, without adding it to your contacts!",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "manifest_version": 3,
     "background": {
       "service_worker": "background.js"
@@ -10,9 +10,7 @@
       "tabs", 
       "contextMenus", 
       "scripting", 
-      "storage",
-      "notifications",
-      "activeTab"
+      "storage"
     ],
     "action": {
       "default_popup": "popup.html",
@@ -28,5 +26,8 @@
       "32": "/images/wa_32.png",
       "48": "/images/wa_48.png",
       "128": "/images/wa_128.png"
+    },
+    "omnibox": {
+      "keyword": "whatsapp"
     }
 }
