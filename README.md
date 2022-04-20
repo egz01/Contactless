@@ -3,6 +3,16 @@ A simple chrome extension that adds the option to open a whatsapp chat with a hi
 
 The extension is not yet available in the chrome web store, hopefully version 0.0.1 will be approved soon :)
 
+# Installation for developers / testers / curious folk
+
+Follow these steps:
+* clone this repository (git clone https://github.com/egz01/Contactless.git)
+* In Chrome, navigate to chrome://extensions/ (i.e., the extension manager)
+* At the top right corner of the view, check the "Developer mode" knob
+* Press "Load unpacked"
+* select the Contactless directory
+* if no errors occurred, the extension should be present in the Extensions menu.
+
 # Functionallity overview
 
 After installation, the extension will appear in the extension menu. Personally, I pinned it for ease of access.
