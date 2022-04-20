@@ -15,7 +15,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "messageContextMenu") {
       number = parseNumber(info.selectionText);
       if (number) {
-      
         var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
         var useApp = data.useApp;
         var firstMessage = data.firstMessage;
@@ -72,6 +71,13 @@ chrome.omnibox.onInputEntered.addListener(async (text, disp) => {
           // somehow get rid of the new tab...
         });
       }
+    } else {
+      chrome.scripting.executeScript({
+        target: {tabId: tab.id},
+        func: () => {
+          alert("Couldn't find a valid whatsapp-number in selected text.");
+        }
+      });
     }
   }
 });
