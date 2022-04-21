@@ -8,7 +8,7 @@
     },
     "permissions": [
       "tabs", 
-      "contextMenus", 
+      "contextMenus",
       "scripting", 
       "storage",
       "activeTab"
@@ -16,17 +16,17 @@
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "/images/wa_16.png",
-        "32": "/images/wa_32.png",
-        "48": "/images/wa_48.png",
-        "128": "/images/wa_128.png"
+        "16": "/images/wa_16_padded.png",
+        "32": "/images/wa_32_padded.png",
+        "48": "/images/wa_48_padded.png",
+        "128": "/images/wa_128_padded.png"
       }
     },
     "icons": {
-      "16": "/images/wa_16.png",
-      "32": "/images/wa_32.png",
-      "48": "/images/wa_48.png",
-      "128": "/images/wa_128.png"
+      "16": "/images/wa_16_padded.png",
+      "32": "/images/wa_32_padded.png",
+      "48": "/images/wa_48_padded.png",
+      "128": "/images/wa_128_padded.png"
     },
     "omnibox": {
       "keyword": "whatsapp"
