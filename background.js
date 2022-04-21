@@ -13,77 +13,48 @@ chrome.runtime.onInstalled.addListener(function() {
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (tab) {
     if (info.menuItemId === "messageContextMenu") {
-      number = parseNumber(info.selectionText);
-      if (number) {
-        var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
-        var useApp = data.useApp;
-        var firstMessage = data.firstMessage;
-      
-        if (!useApp) {
-          url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
-          await switchOrCreateWhatsAppTab(url, tab.index);
-        }
-        else {
-          url = `https://wa.me/${number}?text=${encodeURIComponent(firstMessage)}&app_absent=0`
-          await chrome.tabs.create({
-            active: true,
-            url: url,
-            index: tab.index + 1
-          }, 
-          function (newTab) {
-            // somehow get rid of the new tab...
-          });
-        }
-      }
-      else {
-        chrome.scripting.executeScript({
-          target: {tabId: tab.id},
-          func: () => {
-            alert("Couldn't find a valid whatsapp-number in selected text.");
-          }
-        });
-      }
+      runWhatsapp(tab, info.selectionText);
     }
   }
 });
 
 chrome.omnibox.onInputEntered.addListener(async (text, disp) => {
   var [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-  if (tab) {
-    var number = parseNumber(text);
-    if (number) {
-      var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
-      var useApp = data.useApp;
-      var firstMessage = data.firstMessage;
-
-      if (!useApp) {
-        url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
-        await switchOrCreateWhatsAppTab(url, tab.index);
-      }
-      else {
-        url = `https://wa.me/${number}?text=${encodeURIComponent(firstMessage)}&app_absent=0`
-        await chrome.tabs.create({
-          active: true,
-          url: url,
-          index: tab.index + 1
-        }, 
-        function (newTab) {
-          // somehow get rid of the new tab...
-        });
-      }
-    } else {
-      chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        func: () => {
-          alert("Couldn't find a valid whatsapp-number in selected text.");
-        }
-      });
-    }
+  if (tab){
+    runWhatsapp(tab, text);
   }
 });
 
-async function runWhatsapp(tab) {
+async function runWhatsapp(tab, text) {
+  var number = parseNumber(text);
+  if (number) {
+    var data = await chrome.storage.sync.get(["useApp", "firstMessage"]);
+    var useApp = data.useApp;
+    var firstMessage = data.firstMessage;
 
+    if (!useApp) {
+      url = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(firstMessage)}&app_absent=0`;
+      await switchOrCreateWhatsAppTab(url, tab.index);
+    }
+    else {
+      url = `https://wa.me/${number}?text=${encodeURIComponent(firstMessage)}&app_absent=0`
+      await chrome.tabs.create({
+        active: true,
+        url: url,
+        index: tab.index + 1
+      }, 
+      function (newTab) {
+        // somehow get rid of the new tab...
+      });
+    }
+  } else {
+    chrome.scripting.executeScript({
+      target: {tabId: tab.id},
+      func: () => {
+        alert("Couldn't find a valid whatsapp-number in selected text.");
+      }
+    });
+  }
 }
 
 function parseNumber(text) {
