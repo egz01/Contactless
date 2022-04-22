@@ -43,8 +43,13 @@ async function runWhatsapp(tab, text) {
         url: url,
         index: tab.index + 1
       }, 
-      function (newTab) {
-        // somehow get rid of the new tab...
+      function () {
+        chrome.tabs.onUpdated.addListener(function (tabId, info) {
+          if (info.status == 'complete') {
+            chrome.tabs.remove(tabId);
+            chrome.tabs.onUpdated.removeListener(arguments.callee);
+          }
+        })
       });
     }
   } else {
@@ -58,7 +63,7 @@ async function runWhatsapp(tab, text) {
 }
 
 function parseNumber(text) {
-  number = text.match(/\+?\d+[-\s]?\d+[-\s]?\d+[-\s]?\d+/); // this should identify most numbers, at least in the country this code was written in...
+  number = text.match(/\+?\d+[-\s]?\d+[-\s]?\d+[-\s]?\d+/); // this should identify most numbers, however it could also pick up garbage...
   if (number) number = String(number).replace(/[\+-\s]/g, '');
   return number;
 }
